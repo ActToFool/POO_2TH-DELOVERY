@@ -5,6 +5,9 @@
  */
 package Entity;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  *
  * @author Emanuel Álvarez
@@ -12,6 +15,8 @@ package Entity;
 public abstract class Producto {
     private String codigo;
     private int UnidadesDisponibles;
+    private Map<String, Adicional> adicionalesProducto;
+    private ArrayList<Producto> obsequios;
 
     public Producto(String codigo, int UnidadesDisponibles) {
         this.codigo = codigo;
