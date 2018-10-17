@@ -18,7 +18,56 @@ import java.util.Map;
 public class Vending {
     private GestionProducto gestion;
     private Venta ventaActual;
-    private ArrayList<Venta> ventasRealzadas;
+    private ArrayList<Venta> ventasRealizadas;
+
+    //CONSTRUCTOR
+    public Vending() {
+        this.gestion = new GestionProducto();
+        this.ventaActual = new Venta();
+        this.ventasRealizadas = new ArrayList<>();
+    }
+
+    
+    //GETTERS AND SETTERS
+    public GestionProducto getGestion() {
+        return gestion;
+    }
+
+    public void setGestion(GestionProducto gestion) {
+        this.gestion = gestion;
+    }
+
+    public Venta getVentaActual() {
+        return ventaActual;
+    }
+
+    public void setVentaActual(Venta ventaActual) {
+        this.ventaActual = ventaActual;
+    }
+
+    public ArrayList<Venta> getVentasRealzadas() {
+        return ventasRealizadas;
+    }
+
+    public void setVentasRealzadas(ArrayList<Venta> ventasRealzadas) {
+        this.ventasRealizadas = ventasRealzadas;
+    }
+
+    public Moneda getDineroAcumulado() {
+        return dineroAcumulado;
+    }
+
+    public void setDineroAcumulado(Moneda dineroAcumulado) {
+        this.dineroAcumulado = dineroAcumulado;
+    }
+
+    public Map<String, Producto> getCatalogo() {
+        return Catalogo;
+    }
+
+    public void setCatalogo(Map<String, Producto> Catalogo) {
+        this.Catalogo = Catalogo;
+    }
     private Moneda dineroAcumulado;
     private Map<String, Producto> Catalogo;
 }
