@@ -5,6 +5,9 @@
  */
 package Entity;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  *
  * @author Emanuel Álvarez
@@ -26,6 +29,13 @@ public abstract class Bebida extends Producto{
         this.litros = litros;
         this.valorLitro = valorLitro;
     }
+
+    public Bebida(int litros, float valorLitro, String codigo, int UnidadesDisponibles, Map<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
+        super(codigo, UnidadesDisponibles, adicionalesProducto, obsequios);
+        this.litros = litros;
+        this.valorLitro = valorLitro;
+    }
+    
     
     @Override
     public double calcularValor() {

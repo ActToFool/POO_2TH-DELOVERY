@@ -5,6 +5,9 @@
  */
 package Entity;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  *
  * @author Emanuel Álvarez
@@ -21,6 +24,11 @@ public class Alcoholica extends Bebida{
     }
 
     public Alcoholica() {
+    }
+
+    public Alcoholica(float impuesto, int litros, float valorLitro, String codigo, int UnidadesDisponibles, Map<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
+        super(litros, valorLitro, codigo, UnidadesDisponibles, adicionalesProducto, obsequios);
+        this.impuesto = impuesto;
     }
 
     public Alcoholica(float impuesto, int litros, float valorLitro, String codigo, int UnidadesDisponibles) {

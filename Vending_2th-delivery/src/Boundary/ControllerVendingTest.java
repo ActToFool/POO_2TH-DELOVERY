@@ -1,5 +1,7 @@
 package Boundary;
 
+import Control.Vending;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,12 +14,14 @@ package Boundary;
  */
 public class ControllerVendingTest {
 
-    /**
-     * @param args the command line arguments
-     */
+    Vending vending;
     public static void main(String[] args) {
-        // TODO code application logic here
-        //Prueba de funcionamiento
+        ControllerVendingTest c=new ControllerVendingTest();
+        c.vending.getGestion().crearProductos();
+    }
+
+    public ControllerVendingTest() {
+        this.vending = new Vending();
     }
     
 }

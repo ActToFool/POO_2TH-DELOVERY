@@ -32,6 +32,13 @@ public abstract class Producto {
         this.obsequios = new ArrayList<>();
     }
 
+    public Producto(String codigo, int UnidadesDisponibles, Map<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
+        this.codigo = codigo;
+        this.UnidadesDisponibles = UnidadesDisponibles;
+        this.adicionalesProducto = adicionalesProducto;
+        this.obsequios = obsequios;
+    }
+
     //GETTERS AND SETTERS
     public Map<String, Adicional> getAdicionalesProducto() {
         return adicionalesProducto;

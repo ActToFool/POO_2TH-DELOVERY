@@ -5,6 +5,9 @@
  */
 package Entity;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  *
  * @author Emanuel Álvarez
@@ -14,6 +17,12 @@ public class Alimento extends Producto{
     private float valorGramos;
 
     public Alimento() {
+    }
+
+    public Alimento(int gramos, float valorGramos, String codigo, int UnidadesDisponibles, Map<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
+        super(codigo, UnidadesDisponibles, adicionalesProducto, obsequios);
+        this.gramos = gramos;
+        this.valorGramos = valorGramos;
     }
 
     public Alimento(int gramos, float valorGramos, String codigo, int UnidadesDisponibles) {
