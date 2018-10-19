@@ -10,6 +10,7 @@ import Entity.Adicional;
 import Entity.Alcoholica;
 import Entity.Alimento;
 import Entity.Bebida;
+import Entity.Denominacion;
 import Entity.Producto;
 import Entity.SinAlcohol;
 import Entity.Sustancia;
@@ -179,10 +180,18 @@ public class GestionProducto {
     }
     
     public ArrayList<Moneda> dineroAcumulado(){
-        ArrayList<Moneda> dinero = new ArrayList<>();
+        ArrayList<Moneda> creada=new ArrayList<>();
         //Hay que crear las monedas
-             
-        return dinero;
+        Moneda m1=new Moneda(20,Denominacion.CIEN);
+        Moneda m2=new Moneda(20,Denominacion.DOSCIENTOS);
+        Moneda m3=new Moneda(20,Denominacion.QUINIENTOS);
+        Moneda m4=new Moneda(20,Denominacion.MIL);
+        //CREAMOS LA LISTA QUE VAMOS A RETORNAR Y AGREGAMOS LAS MONEDAS
+        creada.add(m1);
+        creada.add(m2);
+        creada.add(m3);
+        creada.add(m4);
+        return creada;
     }
     
     //CONSTRUCTORS
