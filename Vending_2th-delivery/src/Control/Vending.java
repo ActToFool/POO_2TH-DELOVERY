@@ -5,9 +5,12 @@
  */
 package Control;
 
+import Entity.Denominacion;
 import Entity.Moneda;
 import Entity.Producto;
 import Entity.Venta;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,18 +23,61 @@ public class Vending {
     private Venta ventaActual;
     private ArrayList<Venta> ventasRealizadas;
     private ArrayList<Moneda> dineroAcumulado;
-    private Map<String, Producto> Catalogo;
+    private Map<String, Producto> catalogo;
 
     //CONSTRUCTOR
     public Vending() {
         this.gestion = new GestionProducto();
         this.ventaActual = new Venta();
         this.ventasRealizadas = new ArrayList<>();
-        this.Catalogo = this.gestion.crearProductos();
+        this.catalogo = this.gestion.crearProductos();
         this.dineroAcumulado = this.gestion.dineroAcumulado();
     }
-
-    
+    //Funcion del punto 2
+    public boolean crearNuevaVenta() {
+        if (this.catalogo.isEmpty()) {
+            return false;
+        } else {
+            this.ventaActual = new Venta();
+            this.ventaActual.setFechaHora(LocalDate.now());
+            this.ventasRealizadas.add(this.ventaActual);
+            return true;
+        }
+    }
+    //Funcion del punto 3
+    public int monedasExistentes(int denominacion) {
+        Moneda aux;
+        Denominacion den;
+        den=this.validarDenominacion(denominacion);
+        if (den!=null) {
+            aux = this.ventaActual.buscarMonedaDenominacionVenta(denominacion);
+            if (aux != null) {
+                aux.setCantidad(aux.getCantidad() + 1);
+            } else{
+                Moneda m = new Moneda(1, den);
+                this.ventaActual.getPagoMonedas().add(m);
+            }
+            aux = this.buscarMonedaDenominacion(denominacion);
+            aux.setCantidad(aux.getCantidad() + 1);
+            return aux.getCantidad();
+        } else {
+            return -1;
+        }
+    }
+    public Moneda buscarMonedaDenominacion(int denominacion){
+        for (Moneda not : this.dineroAcumulado) {
+            return not;
+        }
+        return null;
+    }
+    public Denominacion validarDenominacion(int denominacion){
+        for (Denominacion e : Denominacion.values()){
+            if(e.getEnNumeros()==denominacion){
+                return e;
+            }
+        }
+        return null;
+    }
     //GETTERS AND SETTERS
     public GestionProducto getGestion() {
         return gestion;
@@ -74,11 +120,11 @@ public class Vending {
     }
 
     public Map<String, Producto> getCatalogo() {
-        return Catalogo;
+        return catalogo;
     }
 
     public void setCatalogo(Map<String, Producto> Catalogo) {
-        this.Catalogo = Catalogo;
+        this.catalogo = Catalogo;
     }
     
 }

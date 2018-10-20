@@ -7,8 +7,8 @@ import Control.Vending;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
+
  *
  * @author Emanuel Álvarez
  */
@@ -17,7 +17,6 @@ public class ControllerVendingTest {
     Vending vending;
     public static void main(String[] args) {
         ControllerVendingTest c=new ControllerVendingTest();
-        c.vending.getGestion().crearProductos();
     }
 
     public ControllerVendingTest() {

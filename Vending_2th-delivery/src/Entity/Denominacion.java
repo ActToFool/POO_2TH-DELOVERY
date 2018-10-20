@@ -10,8 +10,22 @@ package Entity;
  * @author Emanuel Álvarez
  */
 public enum Denominacion {
-    MIL,
-    QUINIENTOS,
-    DOSCIENTOS,
-    CIEN;
+    MIL(1000),
+    QUINIENTOS(500),
+    DOSCIENTOS(200),
+    CIEN(100);
+    private int enNumeros;
+
+    private Denominacion(int enNumeros) {
+        this.enNumeros = enNumeros;
+    }
+
+    public int getEnNumeros() {
+        return enNumeros;
+    }
+
+    public void setEnNumeros(int enNumeros) {
+        this.enNumeros = enNumeros;
+    }
+    
 }

@@ -5,6 +5,7 @@
  */
 package Entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +17,16 @@ public class Venta {
     private Producto productoVendido;
     private ArrayList<Adicional> adicionalesSeleccionados;
     private ArrayList<Moneda> pagoMonedas;
-
+    private LocalDate FechaHora;
+    //METODOS
+    public Moneda buscarMonedaDenominacionVenta(int denominacion){
+        for (Moneda not : pagoMonedas) {
+            if(not.getDenominacion().getEnNumeros()==denominacion){
+                return not;
+            }
+        }
+        return null;
+    }
     //CONSTRUCTORS
     public Venta() {
         this.adicionalesSeleccionados = new ArrayList<>();
@@ -49,4 +59,14 @@ public class Venta {
     public void setPagoMonedas(ArrayList<Moneda> pagoMonedas) {
         this.pagoMonedas = pagoMonedas;
     }
+
+    public LocalDate getFechaHora() {
+        return FechaHora;
+    }
+
+    public void setFechaHora(LocalDate FechaHora) {
+        this.FechaHora = FechaHora;
+    }
+
+    
 }
