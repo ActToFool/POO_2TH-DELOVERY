@@ -5,6 +5,7 @@
  */
 package Control;
 
+import Entity.Adicional;
 import Entity.Denominacion;
 import Entity.Moneda;
 import Entity.Producto;
@@ -12,6 +13,7 @@ import Entity.Venta;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -74,6 +76,69 @@ public class Vending {
             if(e.getEnNumeros()==denominacion){
                 return e;
             }
+        }
+        return null;
+    }
+    
+    //Funcion del punto 4(Parte de el producto)
+    public boolean venderProducto(String codigo,ArrayList<String> adicionales){
+        Producto buscar = buscarEnCatalogo(codigo);
+        if(buscar!=null){
+            this.ventaActual.setProductoVendido(buscar);
+            HashMap<String, Adicional> respuestaAd = buscarAdicionales(adicionales);
+            if(respuestaAd!=null){
+                boolean validarObs = this.validarObsequios(buscar);
+                if(validarObs){
+                    this.ventaActual.setAdicionalesSeleccionados(respuestaAd);
+                    buscar.setAdicionalesProducto(respuestaAd);
+                }
+            }
+        }
+        return false;
+    }
+    private Producto buscarEnCatalogo(String codigo){//4.1 validar que el producto exista
+        return this.catalogo.get(codigo);
+    }
+    /*private boolean validarAdicionales(Producto p){//4.1.1 Valida los adicionales(que exista al menos 1)
+        int cont=0;
+        for (Adicional not : p.getAdicionalesProducto().values()) {
+            if(not.getUnidadesDisponibles()>0){
+                cont++;
+            }
+        }
+        if(cont==p.getAdicionalesProducto().size()){
+            return true;
+        }
+        return false;
+    }*/
+    private boolean validarObsequios(Producto p){//valida que hallan producto y los obsequios de este
+        if(p.getUnidadesDisponibles()<1){
+            return false;//en esta misma funcion validamos que hallan unidades del producto
+        }else{
+            for (Producto not : p.getObsequios()) {
+               if(not.getUnidadesDisponibles()>0){
+                   return true;//si hay al menos un obsequio ya se puede realizar la venta
+               } 
+            }
+            return false;
+        }
+    }
+    //punto 4(Parte de los adicionales)
+    public void venderAdicionales(ArrayList<String> adiciones, Producto p){
+        
+    }
+    public HashMap<String,Adicional> buscarAdicionales(ArrayList<String> adiciones){
+        HashMap<String,Adicional> aux_adicionales=new HashMap<>();
+        Producto p=this.ventaActual.getProductoVendido();
+        for (Map.Entry<String,Adicional> entry : p.getAdicionalesProducto().entrySet()) {
+            for (String adicion : adiciones) {
+                if(adicion.equals(entry.getValue().getNombre())){
+                    aux_adicionales.put(entry.getKey(), entry.getValue());
+                }
+            }
+        }
+        if(aux_adicionales.size()==adiciones.size()){
+            return aux_adicionales;
         }
         return null;
     }

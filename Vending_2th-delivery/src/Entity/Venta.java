@@ -7,6 +7,7 @@ package Entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class Venta {
     //hay que colocar el atributo de fecha
     private Producto productoVendido;
-    private ArrayList<Adicional> adicionalesSeleccionados;
+    private HashMap<String,Adicional> adicionalesSeleccionados;
     private ArrayList<Moneda> pagoMonedas;
     private LocalDate FechaHora;
     //METODOS
@@ -29,7 +30,7 @@ public class Venta {
     }
     //CONSTRUCTORS
     public Venta() {
-        this.adicionalesSeleccionados = new ArrayList<>();
+        this.adicionalesSeleccionados = new HashMap<>();
         this.pagoMonedas = new ArrayList<>();
         //Hay que revisar cómo se crea, porque se hace dependiendo de si es Alimento o bebida
         //this.productoVendido = new Producto();
@@ -44,11 +45,11 @@ public class Venta {
         this.productoVendido = productoVendido;
     }
 
-    public ArrayList<Adicional> getAdicionalesSeleccionados() {
+    public HashMap<String,Adicional> getAdicionalesSeleccionados() {
         return adicionalesSeleccionados;
     }
 
-    public void setAdicionalesSeleccionados(ArrayList<Adicional> adicionalesSeleccionados) {
+    public void setAdicionalesSeleccionados(HashMap<String,Adicional> adicionalesSeleccionados) {
         this.adicionalesSeleccionados = adicionalesSeleccionados;
     }
 

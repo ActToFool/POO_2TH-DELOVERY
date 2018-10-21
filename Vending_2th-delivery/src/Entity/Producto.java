@@ -57,12 +57,21 @@ public abstract class Producto {
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-
+    
+    
     public int getUnidadesDisponibles() {
         return UnidadesDisponibles;
     }
 
     public void setUnidadesDisponibles(int UnidadesDisponibles) {
         this.UnidadesDisponibles = UnidadesDisponibles;
+    }
+
+    public ArrayList<Producto> getObsequios() {
+        return obsequios;
+    }
+
+    public void setObsequios(ArrayList<Producto> obsequios) {
+        this.obsequios = obsequios;
     }
 }
