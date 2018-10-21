@@ -81,7 +81,7 @@ public class Vending {
     }
     
     //Funcion del punto 4(Parte de el producto)
-    public boolean venderProducto(String codigo,ArrayList<String> adicionales){
+    public boolean venderProducto(String codigo,ArrayList<String> adicionales, ArrayList<Integer> monedas){
         Producto buscar = buscarEnCatalogo(codigo);
         if(buscar!=null){
             this.ventaActual.setProductoVendido(buscar);
@@ -91,6 +91,7 @@ public class Vending {
                 if(validarObs){
                     this.ventaActual.setAdicionalesSeleccionados(respuestaAd);
                     buscar.setAdicionalesProducto(respuestaAd);
+                    return true;
                 }
             }
         }
@@ -141,6 +142,33 @@ public class Vending {
             return aux_adicionales;
         }
         return null;
+    }
+    private boolean pago(double totalProducto){
+        double pago_total=0;
+        for (Moneda not : this.ventaActual.getPagoMonedas()) {
+            pago_total=pago_total+(not.getCantidad()*not.getDenominacion().getEnNumeros());
+        }
+        return totalProducto<=pago_total;
+    }
+    private boolean actualizarExistencias(){
+        Producto p=this.buscarEnCatalogo(this.ventaActual.getProductoVendido().getCodigo());
+        p.setUnidadesDisponibles((p.getUnidadesDisponibles())-1);
+        for (Producto obsequio : p.getObsequios()) {
+            if(obsequio==this.ventaActual.getProductoVendido().getObsequios().get(0)){
+                obsequio.setUnidadesDisponibles(obsequio.getUnidadesDisponibles()-1);
+                return true;
+            }
+        }
+        return false;
+    }
+    private void actualizarMonedas(){
+        for (Moneda pagoMoneda : this.ventaActual.getPagoMonedas()) {
+            for (Moneda moneda : this.dineroAcumulado) {
+                if(pagoMoneda==moneda){
+                    moneda.setCantidad(moneda.getCantidad()+pagoMoneda.getCantidad());
+                }
+            }
+        }
     }
     //GETTERS AND SETTERS
     public GestionProducto getGestion() {
