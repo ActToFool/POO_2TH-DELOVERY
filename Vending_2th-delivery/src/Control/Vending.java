@@ -50,15 +50,14 @@ public class Vending {
         Denominacion den;
         den=this.validarDenominacion(denominacion);
         if (den!=null) {
-            aux = this.ventaActual.buscarMonedaDenominacionVenta(denominacion);
+            aux = this.ventaActual.buscarMonedaDenominacionVenta(denominacion);//se busca en la venta actual
             if (aux != null) {
-                aux.setCantidad(aux.getCantidad() + 1);
+                aux.setCantidad(aux.getCantidad() + 1);//acá se modifican las monedas de la venta actual
             } else{
                 Moneda m = new Moneda(1, den);
-                this.ventaActual.getPagoMonedas().add(m);
+                this.ventaActual.getPagoMonedas().add(m);//si no la encuentra la agrega a la venta actual
             }
-            aux = this.buscarMonedaDenominacion(denominacion);
-            aux.setCantidad(aux.getCantidad() + 1);
+            aux = this.buscarMonedaDenominacion(denominacion);//acá reutilizamos la variable
             return aux.getCantidad();
         } else {
             return -1;
