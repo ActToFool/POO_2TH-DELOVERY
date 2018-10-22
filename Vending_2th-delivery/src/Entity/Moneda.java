@@ -12,6 +12,7 @@ package Entity;
 public class Moneda {
     private int cantidad;
     private Denominacion denominacion;
+    private int cantidadInicialDia;
 
     public Moneda(int cantidad, Denominacion denominacion) {
         this.cantidad = cantidad;
@@ -20,7 +21,11 @@ public class Moneda {
 
     public Moneda() {
     }
-
+    
+    public void modificarCantidad(int cantidad){
+        this.cantidad = this.cantidad + cantidad;
+    }
+    
     public int getCantidad() {
         return cantidad;
     }
@@ -35,5 +40,13 @@ public class Moneda {
 
     public void setDenominacion(Denominacion denominacion) {
         this.denominacion = denominacion;
+    }
+    
+    public int getCantidadInicialDia() {
+        return cantidadInicialDia;
+    }
+
+    public void setCantidadInicialDia(int cantidadInicialDia) {
+        this.cantidadInicialDia = cantidadInicialDia;
     }
 }

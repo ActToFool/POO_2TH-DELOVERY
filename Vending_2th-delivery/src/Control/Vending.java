@@ -70,7 +70,7 @@ public class Vending {
     }
     public Moneda buscarMonedaDenominacion(int denominacion){
         for (Moneda not : this.dineroAcumulado) {
-            if(validarDenominacion(denominacion)!=null){
+            if(this.validarDenominacion(denominacion)!=null){
                 return not;
             }
         }
@@ -194,7 +194,7 @@ public class Vending {
     public ArrayList<Moneda> devolverRestante(){
         ArrayList<Moneda> monedaADevolver = new ArrayList<>();
         int vueltos = this.pago();
-        if(vueltos > 0){
+        if(vueltos >= 0){
             int iter = (this.dineroAcumulado.size() - 1);
             while(vueltos > 0){
                 Moneda actual = this.dineroAcumulado.get(iter);
@@ -206,10 +206,17 @@ public class Vending {
                     //se deben eliminar las monedas de la relacion pagoMonedas,
                     //pero, al esta ya estar modificada en dinero acumulado sólo
                     //usaremos la relacion dineroAcumulado
-                    this.buscarMonedaDenominacion(iter)
+                    this.buscarMonedaDenominacion(mon.getDenominacion().getEnNumeros()).modificarCantidad(-mon.getCantidad());
+                    this.ventasRealizadas.add(this.ventaActual);
+                    vueltos %= actual.getDenominacion().getEnNumeros();
+                    iter--;
                 }
             }
-            System.out.println("fff");
+        }
+        else{
+            monedaADevolver = this.ventaActual.getPagoMonedas();
+            this.ventaActual = null;
+            this.ventaActual = new Venta();
         }
         return monedaADevolver;
     }
