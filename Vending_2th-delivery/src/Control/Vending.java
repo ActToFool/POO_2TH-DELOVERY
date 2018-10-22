@@ -14,7 +14,6 @@ import Entity.Producto;
 import Entity.Sustancia;
 import Entity.Venta;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +32,6 @@ public class Vending {
     //CONSTRUCTOR
     public Vending() {
         this.gestion = new GestionProducto();
-        this.ventaActual = new Venta();
         this.ventasRealizadas = new ArrayList<>();
         this.catalogo = this.gestion.crearProductos();
         this.dineroAcumulado = this.gestion.dineroAcumulado();
@@ -87,6 +85,7 @@ public class Vending {
     
     //Funcion del punto 4(Parte de el producto)
     public boolean venderProducto(String codigo,ArrayList<String> adicionales, ArrayList<Integer> monedas){
+        this.crearNuevaVenta();
         Producto buscar = buscarEnCatalogo(codigo);
         if(buscar!=null){
             this.ventaActual.setProductoVendido(buscar);
@@ -178,16 +177,17 @@ public class Vending {
         return p.calcularValor();
     }
     private double precioAdicionales(){
-        double total;
+        double total=0;
         for (Adicional not : this.ventaActual.getAdicionalesSeleccionados().values()) {
             if(not instanceof Sustancia){
-                
+                total+=((not.calcularPrecio()+1)*this.ventaActual.getProductoVendido().calcularValor());
             }
+            total+=not.calcularPrecio();
         }
-        return 0;
+        return total;
     }
     private double precioTotalProducto(){
-        return 0;
+        return this.precioProducto()+this.precioAdicionales();
     }
     
     //DEVOLVER RESTANTE

@@ -6,6 +6,7 @@
 package Entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public abstract class Bebida extends Producto{
         this.valorLitro = valorLitro;
     }
 
-    public Bebida(int litros, float valorLitro, String codigo, int UnidadesDisponibles, Map<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
+    public Bebida(int litros, float valorLitro, String codigo, int UnidadesDisponibles, HashMap<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
         super(codigo, UnidadesDisponibles, adicionalesProducto, obsequios);
         this.litros = litros;
         this.valorLitro = valorLitro;

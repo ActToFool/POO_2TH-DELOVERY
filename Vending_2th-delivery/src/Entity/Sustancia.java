@@ -10,32 +10,30 @@ package Entity;
  * @author Emanuel Álvarez
  */
 public class Sustancia extends Adicional{
-    private float porcenaje;
+    private float porcentaje;
 
     public Sustancia(float porcenaje, String nombre, int unidadesDisponibles) {
         super(nombre, unidadesDisponibles);
-        this.porcenaje = porcenaje;
+        this.porcentaje = porcenaje;
     }
 
     public Sustancia(float porcenaje) {
-        this.porcenaje = porcenaje;
-    }
-
-    
-
-    @Override
-    public void calcularPrecio() {
-        System.out.println("Soy una sustancia de tipo Adicional");
+        this.porcentaje = porcenaje;
     }
 
     public Sustancia() {
     }
 
-    public float getPorcenaje() {
-        return porcenaje;
+    public float getPorcentaje() {
+        return porcentaje;
     }
 
-    public void setPorcenaje(float porcenaje) {
-        this.porcenaje = porcenaje;
+    public void setPorcentaje(float porcentaje) {
+        this.porcentaje = porcentaje;
+    }
+
+    @Override
+    public double calcularPrecio(){
+        return this.porcentaje;
     }
 }

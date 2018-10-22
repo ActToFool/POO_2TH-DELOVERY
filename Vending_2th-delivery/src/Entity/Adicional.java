@@ -13,7 +13,7 @@ public abstract class Adicional {
     private String nombre;
     private int unidadesDisponibles;
     
-    public abstract void calcularPrecio();
+    public abstract double calcularPrecio();
 
     public Adicional(String nombre, int unidadesDisponibles) {
         this.nombre = nombre;
