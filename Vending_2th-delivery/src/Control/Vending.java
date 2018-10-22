@@ -33,6 +33,7 @@ public class Vending {
     //CONSTRUCTOR
     public Vending() {
         this.gestion = new GestionProducto();
+        this.ventaActual = new Venta();
         this.ventasRealizadas = new ArrayList<>();
         this.catalogo = this.gestion.crearProductos();
         this.dineroAcumulado = this.gestion.dineroAcumulado();
@@ -45,7 +46,7 @@ public class Vending {
         } else {
             this.ventaActual = new Venta();
             this.ventaActual.setFechaHora(LocalDate.now());
-            this.ventasRealizadas.add(this.ventaActual);
+//            this.ventasRealizadas.add(this.ventaActual); //La estamos agregando al final y no al inicio
             return true;
         }
     }
@@ -90,7 +91,6 @@ public class Vending {
 
     //Funcion del punto 4(Parte de el producto)
     public ArrayList<Moneda> venderProducto(String codigo, ArrayList<String> adicionales, ArrayList<Integer> monedas) {
-        this.crearNuevaVenta();
         Producto buscar = buscarEnCatalogo(codigo);
         ArrayList<Moneda> vueltas = new ArrayList<>();
         if (buscar != null) {
@@ -101,28 +101,47 @@ public class Vending {
                 if (validarObs) {
                     this.ventaActual.setAdicionalesSeleccionados(respuestaAd);
                     buscar.setAdicionalesProducto(respuestaAd);
-                    pagoProducto(monedas);
                     vueltas = this.devolverRestante();
-                    if (this.pago() != this.contarVueltas(vueltas)) {//se valida que este completo el dinero
+                    if (this.validarMonedas()>=0) {//se valida que este completo el dinero
+                        this.soltarProducto();
                         this.actualizarExistencias();
                         this.actualizarMonedas();
                     }
                 }
             }
+        }else{
+            vueltas=this.castVueltasMoneda(monedas);
         }
         return vueltas;
     }
+    ArrayList<Moneda> castVueltasMoneda(ArrayList<Integer> monedas){
+        ArrayList<Moneda> aux = new ArrayList<>();
+        for (Integer moneda : monedas) {
+            aux.add(this.buscarMonedaDenominacion(moneda));
+        }
+        return aux;
+    }
+    //Punto 6
+    private void soltarProducto() {
+        //soltamos el producto
+        this.crearNuevaVenta();
+        this.ventasRealizadas.add(this.ventaActual);
+    }
 
-    public void pagoProducto(ArrayList<Integer> monedas) {//funcion que suma las monedas en la maquina
+    /*public void pagoProducto(ArrayList<Integer> monedas) {//funcion que suma las monedas en la maquina
         for (Integer moneda : monedas) {
             this.monedasExistentes(moneda);
         }
-    }
-    public int validarMonedas(){
-        int restante=(int)(this.pago()-this.precioTotalProducto());
-        restante=restante-(restante%100);
+    }*/
+
+    public int validarMonedas() {
+        int restante = (int) (this.pago() - this.precioTotalProducto());
+        if(restante>=0){
+            restante = restante - (restante % 100);
+        }
         return restante;
     }
+
     private Producto buscarEnCatalogo(String codigo) {//4.1 validar que el producto exista
         return this.catalogo.get(codigo);
     }
@@ -176,7 +195,7 @@ public class Vending {
         return pago_total;
     }
 
-    private int contarVueltas(ArrayList<Moneda> vueltas) {//retorna el valor del dinero ingresado
+    private int contarVueltas(ArrayList<Moneda> vueltas) {//cuenta las monedas de las vueltas
         int total = 0;
         for (Moneda vuelta : vueltas) {
             total += (vuelta.getCantidad() * vuelta.getDenominacion().getEnNumeros());
@@ -229,7 +248,7 @@ public class Vending {
     //DEVOLVER RESTANTE
     public ArrayList<Moneda> devolverRestante() {
         ArrayList<Moneda> monedaADevolver = new ArrayList<>();
-        int vueltos = (int)this.validarMonedas();
+        int vueltos = (int) this.validarMonedas();
         if (vueltos >= 0) {
             int iter = (this.dineroAcumulado.size() - 1);
             while (vueltos > 0) {
@@ -255,7 +274,7 @@ public class Vending {
         }
         return monedaADevolver;
     }
-    
+
     //GETTERS AND SETTERS
     public GestionProducto getGestion() {
         return gestion;
