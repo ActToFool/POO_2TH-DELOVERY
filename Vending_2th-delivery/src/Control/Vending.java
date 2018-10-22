@@ -177,6 +177,21 @@ public class Vending {
     private double precioTotalProducto(){
         return 0;
     }
+    
+    //DEVOLVER RESTANTE
+    public ArrayList<Moneda> devolverRestante(){
+        ArrayList<Moneda> monedaADevolver = new ArrayList<>();
+        int vueltos = this.pago();
+        if(vueltos > 0){
+            int iter = (this.dineroAcumulado.size() - 1);
+            while(vueltos > 0){
+                Moneda actual = this.dineroAcumulado.get(iter);
+                Moneda mon = new Moneda();
+                mon.setDenominacion(actual.getDenominacion());
+            }
+        }
+    }
+    
     //GETTERS AND SETTERS
     public GestionProducto getGestion() {
         return gestion;
