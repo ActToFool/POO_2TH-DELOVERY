@@ -102,25 +102,37 @@ public class Vending {
                     this.ventaActual.setAdicionalesSeleccionados(respuestaAd);
                     buscar.setAdicionalesProducto(respuestaAd);
                     vueltas = this.devolverRestante();
-                    if (this.validarMonedas()>=0) {//se valida que este completo el dinero
+                    if (this.validarMonedas() >= 0) {//se valida que este completo el dinero
                         this.soltarProducto();
                         this.actualizarExistencias();
                         this.actualizarMonedas();
+                        return vueltas;
                     }
                 }
             }
-        }else{
-            vueltas=this.castVueltasMoneda(monedas);
         }
+        vueltas = this.castVueltasMoneda(monedas);
         return vueltas;
     }
-    ArrayList<Moneda> castVueltasMoneda(ArrayList<Integer> monedas){
+
+    ArrayList<Moneda> castVueltasMoneda(ArrayList<Integer> monedas) {
         ArrayList<Moneda> aux = new ArrayList<>();
-        for (Integer moneda : monedas) {
-            aux.add(this.buscarMonedaDenominacion(moneda));
+        Moneda m_auxiliar = new Moneda();
+        Moneda d;
+        for (Integer moneda : monedas){
+            d=this.buscarMonedaDenominacion(moneda);
+            if(d!=null){
+                m_auxiliar.setDenominacion(d.getDenominacion());
+            }
+            else{
+                m_auxiliar.setDenominacion(null);
+            }
+            m_auxiliar.setCantidad(1);
+            aux.add(m_auxiliar);
         }
         return aux;
     }
+
     //Punto 6
     private void soltarProducto() {
         //soltamos el producto
@@ -133,10 +145,9 @@ public class Vending {
             this.monedasExistentes(moneda);
         }
     }*/
-
     public int validarMonedas() {
         int restante = (int) (this.pago() - this.precioTotalProducto());
-        if(restante>=0){
+        if (restante >= 0) {
             restante = restante - (restante % 100);
         }
         return restante;
