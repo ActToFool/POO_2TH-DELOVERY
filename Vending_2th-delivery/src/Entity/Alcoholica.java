@@ -35,4 +35,9 @@ public class Alcoholica extends Bebida{
         super(litros, valorLitro, codigo, UnidadesDisponibles);
         this.impuesto = impuesto;
     }
+
+    @Override
+    public double calcularValor() {
+        return (super.getLitros()*super.getValorLitro())*(this.impuesto+1);
+    }
 }

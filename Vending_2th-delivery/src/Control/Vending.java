@@ -6,6 +6,8 @@
 package Control;
 
 import Entity.Adicional;
+import Entity.Alimento;
+import Entity.Bebida;
 import Entity.Denominacion;
 import Entity.Moneda;
 import Entity.Producto;
@@ -169,7 +171,8 @@ public class Vending {
         }
     }
     private double precioProducto(){
-        return 0;
+        Producto p=this.ventaActual.getProductoVendido();
+        return p.calcularValor();
     }
     private double precioAdicionales(){
         return 0;

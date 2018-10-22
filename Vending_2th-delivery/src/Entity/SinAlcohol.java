@@ -35,6 +35,11 @@ public class SinAlcohol extends Bebida{
     public float getDescuento() {
         return descuento;
     }
+
+    @Override
+    public double calcularValor() {
+       return (super.getLitros()*super.getValorLitro())-(this.descuento);
+    }
     
     
 }

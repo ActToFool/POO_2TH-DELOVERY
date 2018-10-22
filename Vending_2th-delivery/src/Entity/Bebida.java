@@ -38,10 +38,7 @@ public abstract class Bebida extends Producto{
     
     
     @Override
-    public double calcularValor() {
-        System.out.println("Soy una bebida de tipo Producto");
-        return 0;
-    }
+    public abstract double calcularValor();
 
     public int getLitros() {
         return litros;
