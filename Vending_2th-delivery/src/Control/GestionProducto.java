@@ -25,10 +25,10 @@ import java.util.Map;
  */
 public class GestionProducto {
 
-    public Map<String, Producto> crearProductos(){
-        Map<String, Producto>productos = new HashMap<>();
+    public HashMap<String, Producto> crearProductos(){
+        HashMap<String, Producto>productos = new HashMap<>();
         ArrayList<Producto> producto_obs=new ArrayList<>();
-        Map<String, Adicional> adicional_aux=new HashMap<>();
+        HashMap<String, Adicional> adicional_aux=new HashMap<>();
         //Se crean obsequios para el primer producto
         Producto o1 = new SinAlcohol(0, 1, 0, "101", 12);
         Producto o2 = new Alcoholica(0, 1, 0, "102", 12);

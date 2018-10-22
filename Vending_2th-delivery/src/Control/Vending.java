@@ -25,7 +25,7 @@ public class Vending {
     private Venta ventaActual;
     private ArrayList<Venta> ventasRealizadas;
     private ArrayList<Moneda> dineroAcumulado;
-    private Map<String, Producto> catalogo;
+    private HashMap<String, Producto> catalogo;
 
     //CONSTRUCTOR
     public Vending() {
@@ -211,11 +211,11 @@ public class Vending {
         this.ventasRealizadas = ventasRealizadas;
     }
 
-    public Map<String, Producto> getCatalogo() {
+    public HashMap<String, Producto> getCatalogo() {
         return catalogo;
     }
 
-    public void setCatalogo(Map<String, Producto> Catalogo) {
+    public void setCatalogo(HashMap<String, Producto> Catalogo) {
         this.catalogo = Catalogo;
     }
     

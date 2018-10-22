@@ -18,13 +18,6 @@ public class ControllerVendingTest {
     Vending vending;
     public static void main(String[] args) {
         ControllerVendingTest c=new ControllerVendingTest();
-        
-    }
-    public String pedirCodigoProducto(){
-        String parseString="";
-        Scanner reader=new Scanner(System.in);
-        parseString=reader.nextLine();
-        return parseString;
     }
     //constructores
     public ControllerVendingTest() {
