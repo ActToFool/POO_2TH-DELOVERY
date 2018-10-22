@@ -191,6 +191,14 @@ public class Vending {
                 Moneda actual = this.dineroAcumulado.get(iter);
                 Moneda mon = new Moneda();
                 mon.setDenominacion(actual.getDenominacion());
+                mon.setCantidad(vueltos / actual.getDenominacion().getEnNumeros());
+                if((mon.getCantidad() > 0) && (actual.getCantidad() >= mon.getCantidad() )){
+                    monedaADevolver.add(mon);
+                    //se deben eliminar las monedas de la relacion pagoMonedas,
+                    //pero, al esta ya estar modificada en dinero acumulado sólo
+                    //usaremos la relacion dineroAcumulado
+                    this.buscarMonedaDenominacion(iter)
+                }
             }
             System.out.println("fff");
         }
