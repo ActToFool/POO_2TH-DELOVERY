@@ -91,7 +91,6 @@ public class Vending {
                 if(validarObs){
                     this.ventaActual.setAdicionalesSeleccionados(respuestaAd);
                     buscar.setAdicionalesProducto(respuestaAd);
-                    this.pago(0);
                     this.actualizarExistencias();
                     this.actualizarMonedas();
                     return true;
@@ -142,8 +141,8 @@ public class Vending {
         }
         return null;
     }
-    private double pago(double totalProducto){
-        double pago_total=0;
+    private int pago(){
+        int pago_total=0;
         for (Moneda not : this.ventaActual.getPagoMonedas()) {
             pago_total=pago_total+(not.getCantidad()*not.getDenominacion().getEnNumeros());
         }
