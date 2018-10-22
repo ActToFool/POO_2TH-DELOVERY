@@ -208,9 +208,9 @@ public class Vending {
                     //usaremos la relacion dineroAcumulado
                     this.buscarMonedaDenominacion(mon.getDenominacion().getEnNumeros()).modificarCantidad(-mon.getCantidad());
                     this.ventasRealizadas.add(this.ventaActual);
-                    vueltos %= actual.getDenominacion().getEnNumeros();
-                    iter--;
                 }
+                vueltos %= actual.getDenominacion().getEnNumeros();
+                iter--;
             }
         }
         else{
