@@ -11,6 +11,7 @@ import Entity.Bebida;
 import Entity.Denominacion;
 import Entity.Moneda;
 import Entity.Producto;
+import Entity.Sustancia;
 import Entity.Venta;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -69,7 +70,9 @@ public class Vending {
     }
     public Moneda buscarMonedaDenominacion(int denominacion){
         for (Moneda not : this.dineroAcumulado) {
-            return not;
+            if(validarDenominacion(denominacion)!=null){
+                return not;
+            }
         }
         return null;
     }
@@ -128,7 +131,7 @@ public class Vending {
             return false;
         }
     }
-    public HashMap<String,Adicional> buscarAdicionales(ArrayList<String> adiciones){
+    public HashMap<String,Adicional> buscarAdicionales(ArrayList<String> adiciones){//convierte los string a Adicional
         HashMap<String,Adicional> aux_adicionales=new HashMap<>();
         Producto p=this.ventaActual.getProductoVendido();
         for (Map.Entry<String,Adicional> entry : p.getAdicionalesProducto().entrySet()) {
@@ -143,14 +146,14 @@ public class Vending {
         }
         return null;
     }
-    private int pago(){
+    private int pago(){//retorna el total en dinero de las monedas
         int pago_total=0;
         for (Moneda not : this.ventaActual.getPagoMonedas()) {
             pago_total=pago_total+(not.getCantidad()*not.getDenominacion().getEnNumeros());
         }
         return pago_total;
     }
-    private boolean actualizarExistencias(){
+    private boolean actualizarExistencias(){//funcion que resta a las existencias y a los obsequios
         Producto p=this.buscarEnCatalogo(this.ventaActual.getProductoVendido().getCodigo());
         p.setUnidadesDisponibles((p.getUnidadesDisponibles())-1);
         for (Producto obsequio : p.getObsequios()) {
@@ -175,6 +178,12 @@ public class Vending {
         return p.calcularValor();
     }
     private double precioAdicionales(){
+        double total;
+        for (Adicional not : this.ventaActual.getAdicionalesSeleccionados().values()) {
+            if(not instanceof Sustancia){
+                
+            }
+        }
         return 0;
     }
     private double precioTotalProducto(){
