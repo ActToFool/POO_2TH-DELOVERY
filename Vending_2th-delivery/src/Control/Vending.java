@@ -192,6 +192,7 @@ public class Vending {
                 Moneda mon = new Moneda();
                 mon.setDenominacion(actual.getDenominacion());
             }
+            System.out.println("fff");
         }
         return monedaADevolver;
     }
