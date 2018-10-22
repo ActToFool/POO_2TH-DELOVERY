@@ -36,4 +36,7 @@ public class Sustancia extends Adicional{
     public double calcularPrecio(){
         return this.porcentaje;
     }
+    public double calcularPrecio(int precio){
+        return precio*(this.porcentaje+1);
+    }
 }

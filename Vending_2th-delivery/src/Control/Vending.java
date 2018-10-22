@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,6 +23,7 @@ import java.util.Map;
  * @author Emanuel Álvarez
  */
 public class Vending {
+
     private GestionProducto gestion;
     private Venta ventaActual;
     private ArrayList<Venta> ventasRealizadas;
@@ -36,6 +37,7 @@ public class Vending {
         this.catalogo = this.gestion.crearProductos();
         this.dineroAcumulado = this.gestion.dineroAcumulado();
     }
+
     //Funcion del punto 2
     public boolean crearNuevaVenta() {
         if (this.catalogo.isEmpty()) {
@@ -47,16 +49,17 @@ public class Vending {
             return true;
         }
     }
+
     //Funcion del punto 3
     public int monedasExistentes(int denominacion) {
         Moneda aux;
         Denominacion den;
-        den=this.validarDenominacion(denominacion);
-        if (den!=null) {
+        den = this.validarDenominacion(denominacion);
+        if (den != null) {
             aux = this.ventaActual.buscarMonedaDenominacionVenta(denominacion);//se busca en la venta actual
             if (aux != null) {
                 aux.setCantidad(aux.getCantidad() + 1);//acá se modifican las monedas de la venta actual
-            } else{
+            } else {
                 Moneda m = new Moneda(1, den);
                 this.ventaActual.getPagoMonedas().add(m);//si no la encuentra la agrega a la venta actual
             }
@@ -66,46 +69,64 @@ public class Vending {
             return -1;
         }
     }
-    public Moneda buscarMonedaDenominacion(int denominacion){
+
+    public Moneda buscarMonedaDenominacion(int denominacion) {
         for (Moneda not : this.dineroAcumulado) {
-            if(this.validarDenominacion(denominacion)!=null){
+            if (this.validarDenominacion(denominacion) != null) {
                 return not;
             }
         }
         return null;
     }
-    public Denominacion validarDenominacion(int denominacion){
-        for (Denominacion e : Denominacion.values()){
-            if(e.getEnNumeros()==denominacion){
+
+    public Denominacion validarDenominacion(int denominacion) {
+        for (Denominacion e : Denominacion.values()) {
+            if (e.getEnNumeros() == denominacion) {
                 return e;
             }
         }
         return null;
     }
-    
+
     //Funcion del punto 4(Parte de el producto)
-    public boolean venderProducto(String codigo,ArrayList<String> adicionales, ArrayList<Integer> monedas){
+    public ArrayList<Moneda> venderProducto(String codigo, ArrayList<String> adicionales, ArrayList<Integer> monedas) {
         this.crearNuevaVenta();
         Producto buscar = buscarEnCatalogo(codigo);
-        if(buscar!=null){
+        ArrayList<Moneda> vueltas = new ArrayList<>();
+        if (buscar != null) {
             this.ventaActual.setProductoVendido(buscar);
             HashMap<String, Adicional> respuestaAd = buscarAdicionales(adicionales);
-            if(respuestaAd!=null){
+            if (respuestaAd != null) {
                 boolean validarObs = this.validarObsequios(buscar);
-                if(validarObs){
+                if (validarObs) {
                     this.ventaActual.setAdicionalesSeleccionados(respuestaAd);
                     buscar.setAdicionalesProducto(respuestaAd);
-                    this.actualizarExistencias();
-                    this.actualizarMonedas();
-                    return true;
+                    pagoProducto(monedas);
+                    vueltas = this.devolverRestante();
+                    if (this.pago() != this.contarVueltas(vueltas)) {//se valida que este completo el dinero
+                        this.actualizarExistencias();
+                        this.actualizarMonedas();
+                    }
                 }
             }
         }
-        return false;
+        return vueltas;
     }
-    private Producto buscarEnCatalogo(String codigo){//4.1 validar que el producto exista
+
+    public void pagoProducto(ArrayList<Integer> monedas) {//funcion que suma las monedas en la maquina
+        for (Integer moneda : monedas) {
+            this.monedasExistentes(moneda);
+        }
+    }
+    public int validarMonedas(){
+        int restante=(int)(this.pago()-this.precioTotalProducto());
+        restante=restante-(restante%100);
+        return restante;
+    }
+    private Producto buscarEnCatalogo(String codigo) {//4.1 validar que el producto exista
         return this.catalogo.get(codigo);
     }
+
     /*private boolean validarAdicionales(Producto p){//4.1.1 Valida los adicionales(que exista al menos 1)
         int cont=0;
         for (Adicional not : p.getAdicionalesProducto().values()) {
@@ -118,90 +139,105 @@ public class Vending {
         }
         return false;
     }*/
-    private boolean validarObsequios(Producto p){//valida que hallan producto y los obsequios de este
-        if(p.getUnidadesDisponibles()<1){
+    private boolean validarObsequios(Producto p) {//valida que hallan producto y los obsequios de este
+        if (p.getUnidadesDisponibles() < 1) {
             return false;//en esta misma funcion validamos que hallan unidades del producto
-        }else{
+        } else {
             for (Producto not : p.getObsequios()) {
-               if(not.getUnidadesDisponibles()>0){
-                   return true;//si hay al menos un obsequio ya se puede realizar la venta
-               } 
+                if (not.getUnidadesDisponibles() > 0) {
+                    return true;//si hay al menos un obsequio ya se puede realizar la venta
+                }
             }
             return false;
         }
     }
-    public HashMap<String,Adicional> buscarAdicionales(ArrayList<String> adiciones){//convierte los string a Adicional
-        HashMap<String,Adicional> aux_adicionales=new HashMap<>();
-        Producto p=this.ventaActual.getProductoVendido();
-        for (Map.Entry<String,Adicional> entry : p.getAdicionalesProducto().entrySet()) {
+
+    public HashMap<String, Adicional> buscarAdicionales(ArrayList<String> adiciones) {//convierte los string a Adicional
+        HashMap<String, Adicional> aux_adicionales = new HashMap<>();
+        Producto p = this.ventaActual.getProductoVendido();
+        for (Map.Entry<String, Adicional> entry : p.getAdicionalesProducto().entrySet()) {
             for (String adicion : adiciones) {
-                if(adicion.equals(entry.getValue().getNombre())){
+                if (adicion.equals(entry.getValue().getNombre())) {
                     aux_adicionales.put(entry.getKey(), entry.getValue());
                 }
             }
         }
-        if(aux_adicionales.size()==adiciones.size()){
+        if (aux_adicionales.size() == adiciones.size()) {
             return aux_adicionales;
         }
         return null;
     }
-    private int pago(){//retorna el total en dinero de las monedas
-        int pago_total=0;
+
+    private int pago() {//retorna el total en dinero de las monedas
+        int pago_total = 0;
         for (Moneda not : this.ventaActual.getPagoMonedas()) {
-            pago_total=pago_total+(not.getCantidad()*not.getDenominacion().getEnNumeros());
+            pago_total = pago_total + (not.getCantidad() * not.getDenominacion().getEnNumeros());
         }
         return pago_total;
     }
-    private boolean actualizarExistencias(){//funcion que resta a las existencias y a los obsequios
-        Producto p=this.buscarEnCatalogo(this.ventaActual.getProductoVendido().getCodigo());
-        p.setUnidadesDisponibles((p.getUnidadesDisponibles())-1);
+
+    private int contarVueltas(ArrayList<Moneda> vueltas) {//retorna el valor del dinero ingresado
+        int total = 0;
+        for (Moneda vuelta : vueltas) {
+            total += (vuelta.getCantidad() * vuelta.getDenominacion().getEnNumeros());
+        }
+        return total;
+    }
+
+    private boolean actualizarExistencias() {//funcion que resta a las existencias y a los obsequios
+        Producto p = this.buscarEnCatalogo(this.ventaActual.getProductoVendido().getCodigo());
+        p.setUnidadesDisponibles((p.getUnidadesDisponibles()) - 1);
         for (Producto obsequio : p.getObsequios()) {
-            if(obsequio==this.ventaActual.getProductoVendido().getObsequios().get(0)){
-                obsequio.setUnidadesDisponibles(obsequio.getUnidadesDisponibles()-1);
+            if (obsequio == this.ventaActual.getProductoVendido().getObsequios().get(0)) {
+                obsequio.setUnidadesDisponibles(obsequio.getUnidadesDisponibles() - 1);
                 return true;
             }
         }
         return false;
     }
-    private void actualizarMonedas(){
+
+    private void actualizarMonedas() {
         for (Moneda pagoMoneda : this.ventaActual.getPagoMonedas()) {
             for (Moneda moneda : this.dineroAcumulado) {
-                if(pagoMoneda==moneda){
-                    moneda.setCantidad(moneda.getCantidad()+pagoMoneda.getCantidad());
+                if (pagoMoneda == moneda) {
+                    moneda.setCantidad(moneda.getCantidad() + pagoMoneda.getCantidad());
                 }
             }
         }
     }
-    private double precioProducto(){
-        Producto p=this.ventaActual.getProductoVendido();
+
+    private double precioProducto() {
+        Producto p = this.ventaActual.getProductoVendido();
         return p.calcularValor();
     }
-    private double precioAdicionales(){
-        double total=0;
+
+    private double precioAdicionales() {
+        double total = 0;
         for (Adicional not : this.ventaActual.getAdicionalesSeleccionados().values()) {
-            if(not instanceof Sustancia){
-                total+=((not.calcularPrecio()+1)*this.ventaActual.getProductoVendido().calcularValor());
+            if (not instanceof Sustancia) {
+                total += ((not.calcularPrecio() + 1) * this.ventaActual.getProductoVendido().calcularValor());
             }
-            total+=not.calcularPrecio();
+            total += not.calcularPrecio();
         }
         return total;
     }
-    private double precioTotalProducto(){
-        return this.precioProducto()+this.precioAdicionales();
+
+    private double precioTotalProducto() {
+        return this.precioProducto() + this.precioAdicionales();
     }
-    
+
     //DEVOLVER RESTANTE
-    public ArrayList<Moneda> devolverRestante(){
+    public ArrayList<Moneda> devolverRestante() {
         ArrayList<Moneda> monedaADevolver = new ArrayList<>();
-        int vueltos = this.pago();
-        if(vueltos >= 0){
+        int vueltos = (int)this.validarMonedas();
+        if (vueltos >= 0) {
             int iter = (this.dineroAcumulado.size() - 1);
-            while(vueltos > 0){
+            while (vueltos > 0) {
                 Moneda actual = this.dineroAcumulado.get(iter);
                 Moneda mon = new Moneda();
                 mon.setDenominacion(actual.getDenominacion());
                 mon.setCantidad(vueltos / actual.getDenominacion().getEnNumeros());
-                if((mon.getCantidad() > 0) && (actual.getCantidad() >= mon.getCantidad() )){
+                if ((mon.getCantidad() > 0) && (actual.getCantidad() >= mon.getCantidad())) {
                     monedaADevolver.add(mon);
                     //se deben eliminar las monedas de la relacion pagoMonedas,
                     //pero, al esta ya estar modificada en dinero acumulado sólo
@@ -212,8 +248,7 @@ public class Vending {
                 vueltos %= actual.getDenominacion().getEnNumeros();
                 iter--;
             }
-        }
-        else{
+        } else {
             monedaADevolver = this.ventaActual.getPagoMonedas();
             this.ventaActual = null;
             this.ventaActual = new Venta();
@@ -269,5 +304,5 @@ public class Vending {
     public void setCatalogo(HashMap<String, Producto> Catalogo) {
         this.catalogo = Catalogo;
     }
-    
+
 }
