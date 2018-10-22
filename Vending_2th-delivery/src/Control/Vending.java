@@ -70,19 +70,19 @@ public class Vending {
     }
     public Moneda buscarMonedaDenominacion(int denominacion){
         for (Moneda not : this.dineroAcumulado) {
-            if(validarDenominacion(denominacion)){
+            if(validarDenominacion(denominacion)!=null){
                 return not;
             }
         }
         return null;
     }
-    public boolean validarDenominacion(int denominacion){
+    public Denominacion validarDenominacion(int denominacion){
         for (Denominacion e : Denominacion.values()){
             if(e.getEnNumeros()==denominacion){
-                return true;
+                return e;
             }
         }
-        return false;
+        return null;
     }
     
     //Funcion del punto 4(Parte de el producto)
