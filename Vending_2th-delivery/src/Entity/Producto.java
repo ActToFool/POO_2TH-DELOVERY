@@ -16,7 +16,7 @@ import java.util.Map;
 public abstract class Producto {
     private String codigo;
     private int UnidadesDisponibles;
-    private Map<String, Adicional> adicionalesProducto;
+    private HashMap<String, Adicional> adicionalesProducto;
     private ArrayList<Producto> obsequios;
 
     //CONTRUCTORS
@@ -32,7 +32,7 @@ public abstract class Producto {
         this.obsequios = new ArrayList<>();
     }
 
-    public Producto(String codigo, int UnidadesDisponibles, Map<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
+    public Producto(String codigo, int UnidadesDisponibles, HashMap<String, Adicional> adicionalesProducto, ArrayList<Producto> obsequios) {
         this.codigo = codigo;
         this.UnidadesDisponibles = UnidadesDisponibles;
         this.adicionalesProducto = adicionalesProducto;
@@ -40,11 +40,11 @@ public abstract class Producto {
     }
 
     //GETTERS AND SETTERS
-    public Map<String, Adicional> getAdicionalesProducto() {
+    public HashMap<String, Adicional> getAdicionalesProducto() {
         return adicionalesProducto;
     }
 
-    public void setAdicionalesProducto(Map<String, Adicional> adicionalesProducto) {
+    public void setAdicionalesProducto(HashMap<String, Adicional> adicionalesProducto) {
         this.adicionalesProducto = adicionalesProducto;
     }
     

@@ -58,7 +58,7 @@ public class GestionProducto {
         //PRODUCTO 2
         
         ArrayList<Producto> producto_obs1=new ArrayList<>();
-        Map<String, Adicional> adicional_aux1=new HashMap<>();
+        HashMap<String, Adicional> adicional_aux1=new HashMap<>();
         //Se crean obsequios para el primer producto
         Producto o11 = new SinAlcohol(0, 1, 0, "111", 12);
         Producto o21 = new Alcoholica(0, 1, 0, "112", 12);
@@ -88,7 +88,7 @@ public class GestionProducto {
         //PRODUCTO 3
 
         ArrayList<Producto> producto_obs2=new ArrayList<>();
-        Map<String, Adicional> adicional_aux2=new HashMap<>();
+        HashMap<String, Adicional> adicional_aux2=new HashMap<>();
         //Se crean obsequios para el primer producto
         Producto o12 = new SinAlcohol(0, 1, 0, "121", 12);
         Producto o22 = new Alcoholica(0, 1, 0, "122", 12);
@@ -118,7 +118,7 @@ public class GestionProducto {
         //PRODUCTO 4
         
         ArrayList<Producto> producto_obs3=new ArrayList<>();
-        Map<String, Adicional> adicional_aux3=new HashMap<>();
+        HashMap<String, Adicional> adicional_aux3=new HashMap<>();
         //Se crean obsequios para el primer producto
         Producto o13 = new SinAlcohol(0, 1, 0, "131", 12);
         Producto o23 = new Alcoholica(0, 1, 0, "132", 12);
@@ -149,7 +149,7 @@ public class GestionProducto {
         //PRODUCTO 4
         
         ArrayList<Producto> producto_obs4=new ArrayList<>();
-        Map<String, Adicional> adicional_aux4=new HashMap<>();
+        HashMap<String, Adicional> adicional_aux4=new HashMap<>();
         //Se crean obsequios para el primer producto
         Producto o14 = new SinAlcohol(0, 1, 0, "141", 12);
         Producto o24 = new Alcoholica(0, 1, 0, "142", 12);
