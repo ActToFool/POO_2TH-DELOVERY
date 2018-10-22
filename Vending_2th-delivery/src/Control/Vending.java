@@ -190,6 +190,7 @@ public class Vending {
                 mon.setDenominacion(actual.getDenominacion());
             }
         }
+        return monedaADevolver;
     }
     
     //GETTERS AND SETTERS
