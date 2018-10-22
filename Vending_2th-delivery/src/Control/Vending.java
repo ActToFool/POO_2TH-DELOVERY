@@ -91,6 +91,9 @@ public class Vending {
                 if(validarObs){
                     this.ventaActual.setAdicionalesSeleccionados(respuestaAd);
                     buscar.setAdicionalesProducto(respuestaAd);
+                    this.pago(0);
+                    this.actualizarExistencias();
+                    this.actualizarMonedas();
                     return true;
                 }
             }
@@ -124,10 +127,6 @@ public class Vending {
             return false;
         }
     }
-    //punto 4(Parte de los adicionales)
-    public void venderAdicionales(ArrayList<String> adiciones, Producto p){
-        
-    }
     public HashMap<String,Adicional> buscarAdicionales(ArrayList<String> adiciones){
         HashMap<String,Adicional> aux_adicionales=new HashMap<>();
         Producto p=this.ventaActual.getProductoVendido();
@@ -143,12 +142,12 @@ public class Vending {
         }
         return null;
     }
-    private boolean pago(double totalProducto){
+    private double pago(double totalProducto){
         double pago_total=0;
         for (Moneda not : this.ventaActual.getPagoMonedas()) {
             pago_total=pago_total+(not.getCantidad()*not.getDenominacion().getEnNumeros());
         }
-        return totalProducto<=pago_total;
+        return pago_total;
     }
     private boolean actualizarExistencias(){
         Producto p=this.buscarEnCatalogo(this.ventaActual.getProductoVendido().getCodigo());
@@ -169,6 +168,15 @@ public class Vending {
                 }
             }
         }
+    }
+    private double precioProducto(){
+        return 0;
+    }
+    private double precioAdicionales(){
+        return 0;
+    }
+    private double precioTotalProducto(){
+        return 0;
     }
     //GETTERS AND SETTERS
     public GestionProducto getGestion() {
