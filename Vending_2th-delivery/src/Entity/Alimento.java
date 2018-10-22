@@ -39,8 +39,7 @@ public class Alimento extends Producto{
 
     @Override
     public double calcularValor() {
-        System.out.println("soy Alimento de tipo Producto");
-        return 0;
+        return (this.gramos*this.valorGramos);
     }
 
     public int getGramos() {

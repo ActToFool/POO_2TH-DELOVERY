@@ -18,6 +18,9 @@ public class Moneda {
         this.denominacion = denominacion;
     }
 
+    public Moneda() {
+    }
+
     public int getCantidad() {
         return cantidad;
     }
